@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CineCRUD - Plataforma Profesional{% endblock %}</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* TODO EL CSS QUE YA TENÍAS (no lo cambio, solo añado si falta algo) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0a0f1c, #03050b);
+            color: #f0f3fa;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1f2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff4d4d;
+            border-radius: 10px;
+        }
+
+        .navbar {
+            backdrop-filter: blur(12px);
+            background: rgba(10, 15, 28, 0.8);
+            border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff4d4d, #ff9a3c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            background: none;
+            color: #ff4d4d;
+            margin-right: 8px;
+        }
+
+        .btn-crear {
+            background: linear-gradient(95deg, #ff4d4d, #ff9a3c);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-crear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.4);
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid-catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(20, 25, 40, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.35s ease;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 77, 77, 0.6);
+            box-shadow: 0 25px 40px -12px #ff4d4d40;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .anio {
+            background: #ff4d4d20;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ff9a3c;
+        }
+
+        .genero {
+            display: inline-block;
+            background: #ffffff10;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 12px 0;
+        }
+
+        .descripcion {
+            font-size: 0.9rem;
+            color: #cdd4f0;
+            margin: 12px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .btn-editar,
+        .btn-eliminar {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-editar {
+            background: #2c3e66;
+            color: white;
+        }
+
+        .btn-editar:hover {
+            background: #1e2a4a;
+            transform: scale(0.97);
+        }
+
+        .btn-eliminar {
+            background: rgba(255, 77, 77, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff4d4d60;
+        }
+
+        .btn-eliminar:hover {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        .glass-card {
+            background: rgba(20, 25, 45, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            padding: 2rem;
+            max-width: 700px;
+            margin: 2rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, #ff9a3c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        form p {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            color: #ffd966;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 28px;
+            font-size: 1rem;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5rem;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 12px #ff4d4d80;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(95deg, #ff4d4d, #ff9a3c);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px #ff4d4d;
+        }
+
+        .cancelar {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #ccc;
+        }
+
+        .modal-glass {
+            background: rgba(10, 10, 20, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 10vh auto;
+            text-align: center;
+            border: 1px solid #ff4d4d;
+        }
+
+        .btn-danger {
+            background: #ff4d4d;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            margin: 0 8px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background: #2c3e66;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        @media (max-width:768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .grid-catalogo {
+                gap: 1rem;
+            }
+        }
+
+        .filtro-generos {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .filtro-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .btn-filtro {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            background: rgba(44, 62, 102, 0.8);
+            color: #f0f3fa;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-filtro i {
+            font-size: 0.9rem;
+        }
+
+        .btn-filtro.activo {
+            background: linear-gradient(95deg, #ff4d4d, #ff9a3c);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+        }
+
+        .btn-filtro:not(.activo):hover {
+            background: #ff4d4d;
+            color: white;
+            transform: translateY(-2px);
+            border-color: #ff4d4d;
+        }
+
+        .btn-filtro-todos {
+            background: #2c3e66;
+        }
+
+        .btn-filtro-todos.activo {
+            background: linear-gradient(95deg, #ff4d4d, #ff9a3c);
+        }
+
+        .btn-ver {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            background: linear-gradient(95deg, #ff4d4d, #ff9a3c);
+            color: white;
+        }
+
+        .btn-ver:hover {
+            transform: scale(0.97);
+            filter: brightness(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .user-welcome {
+            color: #ff9a3c;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-film"></i> Cuevana <span style="font-size:0.9rem;">| Studio</span>
+        </div>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+            <span class="user-welcome"><i class="fas fa-user"></i> {{ user.username }}</span>
+            <a href="{% url 'logout' %}" class="btn-crear" style="background:#2c3e66;">Cerrar sesión</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn-crear" style="background:#2c3e66;">Iniciar sesión</a>
+            <a href="{% url 'registro' %}" class="btn-crear">Registrarse</a>
+            {% endif %}
+            {% if es_admin %}
+            <a href="{% url 'crear_contenido' %}" class="btn-crear">
+                <i class="fas fa-plus-circle"></i> Nuevo contenido
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p><i class="fas fa-database"></i> CRUD con Django + Supabase | 5to Semestre. Andres Martinez y Santiago
+            Jaramillo</p>
+    </footer>
+</body>
+
+</html>

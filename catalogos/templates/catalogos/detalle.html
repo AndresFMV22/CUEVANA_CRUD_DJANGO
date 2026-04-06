@@ -1,0 +1,68 @@
+{% extends 'catalogos/base.html' %}
+
+{% block title %}{{ contenido.titulo }} | CineCRUD{% endblock %}
+
+{% block content %}
+<div class="detalle-container" style="max-width: 1200px; margin: 0 auto;">
+    <!-- Botón volver -->
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'lista_contenido' %}" class="btn-filtro" style="background: #2c3e66;">
+            <i class="fas fa-arrow-left"></i> Volver al catálogo
+        </a>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+        <!-- Poster -->
+        <div style="flex: 1; min-width: 250px;">
+            {% if contenido.imagen_url %}
+            <img src="{{ contenido.imagen_url }}" alt="{{ contenido.titulo }}"
+                style="width: 100%; border-radius: 28px; box-shadow: 0 20px 35px -12px black;">
+            {% else %}
+            <div
+                style="background: linear-gradient(145deg, #1e2a3a, #0f172a); border-radius: 28px; display: flex; align-items: center; justify-content: center; height: 450px;">
+                <i class="fas fa-image" style="font-size: 5rem; opacity: 0.3;"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Información -->
+        <div style="flex: 2;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">{{ contenido.titulo }} <span
+                    style="font-size: 1.5rem; color: #ff9a3c;">({{ contenido.anio }})</span></h1>
+            <div class="genero" style="display: inline-block; margin: 1rem 0;">
+                <i class="fas fa-tag"></i> {{ contenido.genero }}
+            </div>
+            <p style="font-size: 1.1rem; line-height: 1.6; color: #cdd4f0;">{{ contenido.descripcion }}</p>
+
+            <!-- Reproductor de video -->
+            <div style="margin-top: 2rem;">
+                <h3><i class="fas fa-play-circle"></i> Ver {{ contenido.anio|date:"Y"|default:contenido.anio }}</h3>
+                {% if youtube_id %}
+                <div
+                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 28px; margin-top: 1rem;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                        src="https://www.youtube.com/embed/{{ youtube_id }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                {% elif contenido.video_url %}
+                <div
+                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 28px; margin-top: 1rem;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                        src="{{ contenido.video_url }}" frameborder="0" allowfullscreen>
+                    </iframe>
+                </div>
+                {% else %}
+                <div
+                    style="background: rgba(0,0,0,0.5); border-radius: 28px; padding: 3rem; text-align: center; margin-top: 1rem;">
+                    <i class="fas fa-video" style="font-size: 3rem; opacity: 0.5;"></i>
+                    <p>No hay tráiler disponible para este contenido.</p>
+                    <p style="font-size: 0.9rem;">Pronto actualizaremos el enlace.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

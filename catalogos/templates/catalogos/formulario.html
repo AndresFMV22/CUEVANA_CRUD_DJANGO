@@ -1,0 +1,18 @@
+{% extends 'catalogos/base.html' %}
+
+{% block content %}
+<div class="glass-card">
+    <h2><i class="fas {% if accion == 'Crear' %}fa-plus-circle{% else %}fa-pen-nib{% endif %}"></i> {{ accion }}
+        Contenido</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            <i class="fas fa-save"></i> {{ accion }} y guardar
+        </button>
+        <a href="{% url 'lista_contenido' %}" class="cancelar">
+            <i class="fas fa-times-circle"></i> Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}

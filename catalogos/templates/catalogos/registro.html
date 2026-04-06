@@ -1,0 +1,13 @@
+{% extends 'catalogos/base.html' %}
+
+{% block content %}
+<div class="glass-card" style="max-width: 400px;">
+    <h2><i class="fas fa-user-plus"></i> Registro</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear cuenta</button>
+    </form>
+    <p class="cancelar">¿Ya tienes cuenta? <a href="{% url 'login' %}" style="color: #ff9a3c;">Inicia sesión</a></p>
+</div>
+{% endblock %}

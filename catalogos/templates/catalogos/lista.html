@@ -1,0 +1,90 @@
+{% extends 'catalogos/base.html' %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 2rem;">
+    <h1
+        style="font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #fff, #ff9a3c); -webkit-background-clip: text; background-clip: text; color: transparent;">
+        🎬 EXPLORA EL CINE
+    </h1>
+    <p style="color: #bbb;">Las mejores películas</p>
+</div>
+
+<!-- FILTRO POR GÉNERO -->
+<div class="filtro-generos">
+    <div class="filtro-wrapper">
+        <a href="?genero=todos"
+            class="btn-filtro btn-filtro-todos {% if not genero_seleccionado or genero_seleccionado == 'todos' %}activo{% endif %}">
+            <i class="fas fa-film"></i> Todos
+        </a>
+        {% for g in generos %}
+        <a href="?genero={{ g|urlencode }}" class="btn-filtro {% if genero_seleccionado == g %}activo{% endif %}">
+            <i class="fas fa-tag"></i> {{ g }}
+        </a>
+        {% empty %}
+        <span class="btn-filtro" style="opacity:0.6; cursor:default;">
+            <i class="fas fa-info-circle"></i> Sin géneros aún
+        </span>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- CUADRICULA DE CONTENIDOS -->
+<div class="grid-catalogo">
+    {% for contenido in contenidos %}
+    <div class="card">
+        {% if contenido.imagen_url %}
+        <img class="card-img" src="{{ contenido.imagen_url }}" alt="{{ contenido.titulo }}">
+        {% else %}
+        <div class="card-img"
+            style="background: linear-gradient(145deg, #1e2a3a, #0f172a); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-image" style="font-size: 4rem; opacity: 0.5;"></i>
+        </div>
+        {% endif %}
+        <div class="card-body">
+            <div class="card-title">
+                {{ contenido.titulo }}
+                <span class="anio">{{ contenido.anio }}</span>
+            </div>
+            <div class="genero">
+                <i class="fas fa-tag"></i> {{ contenido.genero }}
+            </div>
+            <div class="descripcion">
+                {{ contenido.descripcion|truncatewords:20 }}
+            </div>
+            <div class="card-buttons">
+                {% if user.is_authenticated %}
+                <a href="{% url 'detalle_contenido' contenido.pk %}" class="btn-ver">
+                    <i class="fas fa-play"></i> Trailer
+                </a>
+                {% else %}
+                <span class="btn-ver" style="background: #2c3e66; cursor: not-allowed; opacity: 0.7;">
+                    <i class="fas fa-lock"></i> Inicia sesión para ver
+                </span>
+                {% endif %}
+
+                {% if es_admin %}
+                <a href="{% url 'editar_contenido' contenido.pk %}" class="btn-editar">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="{% url 'eliminar_contenido' contenido.pk %}" class="btn-eliminar">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: #ffffff10; border-radius: 60px;">
+        <i class="fas fa-database" style="font-size: 3rem;"></i>
+        <h3>No hay contenido{% if genero_seleccionado %} en este género{% endif %}</h3>
+        {% if es_admin %}
+        <a href="{% url 'crear_contenido' %}" class="btn-crear" style="display: inline-block; margin-top: 1rem;">
+            <i class="fas fa-plus-circle"></i> Agregar primera película
+        </a>
+        {% else %}
+        <p style="margin-top: 1rem;">Inicia sesión como administrador para agregar contenido.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
