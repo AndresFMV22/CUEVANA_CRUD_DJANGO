@@ -1,21 +1,35 @@
 # Entorno virtual
 venv/
-
-# Variables sensibles
-.env
+env/
+ENV/
 
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.so
+
+# Base de datos local (por si usas SQLite)
+db.sqlite3
 
 # Django
-db.sqlite3
-media/
-staticfiles/
+*.log
+*.pot
+local_settings.py
+/staticfiles/
+/static/
+/media/
 
-# VS Code
+# Archivos de entorno (importante para .env)
+.env
+.env.local
+
+# Editor
 .vscode/
+.idea/
+*.swp
 
-# Sistema
+# OS
 .DS_Store
 Thumbs.db
