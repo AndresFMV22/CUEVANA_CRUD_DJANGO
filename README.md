@@ -1,27 +1,27 @@
-# 🎬 Cuevana CRUD - Plataforma de Gestión de Películas
+#Cuevana CRUD - Plataforma de Gestión de Películas
 
 > Proyecto universitario de **5to semestre – Plataformas de Programación**.
 > Aplicación web desarrollada con **Django** que implementa un **CRUD completo** para un catálogo de películas y series, con autenticación por roles, filtros por género, tráilers de YouTube y una interfaz inspirada en **Cuevana**.
 
 ---
 
-## ✨ Características principales
+##  Características principales
 
-* 🎥 **CRUD completo** de películas/series
-* 👥 **Autenticación por roles**
+* **CRUD completo** de películas/series
+*  **Autenticación por roles**
 
   * Administradores
   * Usuarios normales
-* 🔍 **Filtro por género**
-* ▶️ **Reproducción de tráilers de YouTube**
-* 🎨 **Interfaz moderna estilo Cuevana**
-* 📱 **Diseño responsive**
-* ☁️ **Base de datos en Supabase (PostgreSQL)**
-* 🔐 **Permisos por grupos con Django Auth**
+*  **Filtro por género**
+*  **Reproducción de tráilers de YouTube**
+*  **Interfaz moderna estilo Cuevana**
+   **Diseño responsive**
+*  **Base de datos en Supabase (PostgreSQL)**
+*  **Permisos por grupos con Django Auth**
 
 ---
 
-## 🚀 Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 | Área          | Tecnología                              |
 | ------------- | --------------------------------------- |
@@ -35,7 +35,7 @@
 
 ---
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```bash
 cuevana_crud/
@@ -72,9 +72,9 @@ cuevana_crud/
 
 ---
 
-# 🧠 Explicación detallada de archivos clave
+#  Explicación detallada de archivos clave
 
-## 📌 `models.py` – Modelo de datos
+##  `models.py` – Modelo de datos
 
 Define la tabla principal **Contenido**.
 
@@ -88,7 +88,7 @@ Define la tabla principal **Contenido**.
 * `video_url` → URL del tráiler
 * `fecha_agregado` → Fecha automática
 
-### ✅ Validaciones
+###  Validaciones
 
 * No permite años menores a **1888**
 * No permite años negativos
@@ -96,7 +96,7 @@ Define la tabla principal **Contenido**.
 
 ---
 
-## 📌 `views.py` – Lógica del sistema
+##  `views.py` – Lógica del sistema
 
 Aquí se controla toda la lógica de negocio del CRUD.
 
@@ -111,7 +111,7 @@ Aquí se controla toda la lógica de negocio del CRUD.
 | `login_view`         | GET / POST | Inicio de sesión                    |
 | `logout_view`        | GET        | Cierre de sesión                    |
 
-### 🔐 Seguridad
+###  Seguridad
 
 ```python
 @user_passes_test(es_admin)
@@ -122,7 +122,7 @@ Se usan decoradores para proteger las vistas administrativas.
 
 ---
 
-## 📌 `urls.py` – Rutas
+##  `urls.py` – Rutas
 
 ```python
 urlpatterns = [
@@ -139,7 +139,7 @@ urlpatterns = [
 
 ---
 
-## 🎨 Templates principales
+##  Templates principales
 
 ### `base.html`
 
@@ -181,7 +181,7 @@ urlpatterns = [
 
 ---
 
-## 📌 `context_processors.py`
+##  `context_processors.py`
 
 Crea la variable global:
 
@@ -193,7 +193,7 @@ Disponible automáticamente en todos los templates.
 
 ---
 
-## ⚙️ Configuración (`settings.py`)
+##  Configuración (`settings.py`)
 
 Incluye:
 
@@ -208,7 +208,7 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 ---
 
-## 🔐 Variables de entorno
+##  Variables de entorno
 
 Archivo `.env`:
 
@@ -216,13 +216,13 @@ Archivo `.env`:
 SUPABASE_DB_URL=postgresql://usuario:password@host:5432/postgres
 ```
 
-> ⚠️ **Nunca subir este archivo a GitHub**
+>  **Nunca subir este archivo a GitHub**
 
 ---
 
-# 👥 Roles y permisos
+#  Roles y permisos
 
-## 👑 Administrador
+##  Administrador
 
 Puede:
 
@@ -231,14 +231,14 @@ Puede:
 * Eliminar contenido
 * Ver tráilers
 
-## 🙋 Usuario normal
+##  Usuario normal
 
 Puede:
 
 * Ver catálogo
 * Ver tráilers si inició sesión
 
-## 👀 Visitante
+##  Visitante
 
 Puede:
 
@@ -248,9 +248,9 @@ Puede:
 
 ---
 
-# 🧪 Instalación y puesta en marcha
+#  Instalación y puesta en marcha
 
-## ✅ Requisitos
+##  Requisitos
 
 * Python 3.8+
 * Git
@@ -258,14 +258,14 @@ Puede:
 
 ---
 
-## 📥 1) Clonar repositorio
+##  1) Clonar repositorio
 
 ```bash
 git clone https://github.com/tuusuario/cuevana-crud-django.git
 cd cuevana-crud-django
 ```
 
-## 🐍 2) Crear entorno virtual
+##  2) Crear entorno virtual
 
 ```bash
 python -m venv venv
@@ -283,25 +283,25 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-## 📦 3) Instalar dependencias
+##  3) Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## ⚙️ 4) Configurar `.env`
+##  4) Configurar `.env`
 
 ```env
 SUPABASE_DB_URL=postgresql://usuario:password@host:5432/postgres
 ```
 
-## 🗃️ 5) Aplicar migraciones
+##  5) Aplicar migraciones
 
 ```bash
 python manage.py migrate
 ```
 
-## 👥 6) Crear grupos y permisos
+##  6) Crear grupos y permisos
 
 ```bash
 python manage.py shell
@@ -326,13 +326,13 @@ users_group, _ = Group.objects.get_or_create(name='Usuarios')
 exit()
 ```
 
-## 👑 7) Crear superusuario
+##  7) Crear superusuario
 
 ```bash
 python manage.py createsuperuser
 ```
 
-## ▶️ 8) Ejecutar servidor
+##  8) Ejecutar servidor
 
 ```bash
 python manage.py runserver
@@ -346,18 +346,18 @@ http://127.0.0.1:8000
 
 ---
 
-# 🖱️ Uso de la aplicación
+#  Uso de la aplicación
 
-* 🔐 Registro / Login desde navbar
-* 🎬 Ver catálogo público
-* ▶️ Ver tráiler solo autenticados
-* ➕ Nuevo contenido solo admin
-* ✏️ Editar / 🗑️ eliminar solo admin
-* 🎭 Filtro por género
+*  Registro / Login desde navbar
+*  Ver catálogo público
+*  Ver tráiler solo autenticados
+*  Nuevo contenido solo admin
+*  Editar / 🗑️ eliminar solo admin
+*  Filtro por género
 
 ---
 
-# 🎥 Manejo de videos de YouTube
+#  Manejo de videos de YouTube
 
 Formatos soportados:
 
@@ -371,7 +371,7 @@ El sistema extrae automáticamente el **ID del video** y genera un `iframe` resp
 
 ---
 
-# 📦 Comandos útiles
+#  Comandos útiles
 
 | Comando                            | Descripción            |
 | ---------------------------------- | ---------------------- |
@@ -384,16 +384,16 @@ El sistema extrae automáticamente el **ID del video** y genera un `iframe` resp
 
 ---
 
-# 👨‍💻 Autores
+#  Autores
 
 * **Andres Martinez** → Backend, autenticación, CRUD, Supabase
 * **Santiago Jaramillo** → Frontend, CSS, filtros, integración de videos
 
-📚 Proyecto entregado para la asignatura **Plataformas de Programación – 5to semestre**.
+ Proyecto entregado para la asignatura **Plataformas de Programación – 5to semestre**.
 
 ---
 
-# 📄 Licencia
+#  Licencia
 
 Proyecto de **uso académico**.
 
@@ -401,7 +401,7 @@ No se permite la reproducción total o parcial sin autorización de los autores.
 
 ---
 
-# ⭐ Vista general del proyecto
+#  Vista general del proyecto
 
 Este proyecto busca simular una plataforma tipo **Cuevana / Netflix**, aplicando conceptos de:
 
@@ -411,4 +411,4 @@ Este proyecto busca simular una plataforma tipo **Cuevana / Netflix**, aplicando
 * PostgreSQL en la nube
 * UI/UX moderna con CSS puro
 
-Ideal para portafolio universitario y presentación profesional en GitHub 🚀
+Ideal para portafolio universitario y presentación profesional en GitHub 
