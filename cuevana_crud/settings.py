@@ -131,3 +131,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
