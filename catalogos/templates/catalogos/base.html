@@ -437,7 +437,7 @@
         <div class="nav-links">
             {% if user.is_authenticated %}
             <span class="user-welcome"><i class="fas fa-user"></i> {{ user.username }}</span>
-            <a href="{% url 'logout' %}" class="btn-crear" style="background:#2c3e66;">Cerrar sesión</a>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">{% csrf_token %}<button type="submit" class="btn-crear" style="background:#2c3e66; cursor:pointer;">Cerrar sesión</button></form>
             {% else %}
             <a href="{% url 'login' %}" class="btn-crear" style="background:#2c3e66;">Iniciar sesión</a>
             <a href="{% url 'registro' %}" class="btn-crear">Registrarse</a>

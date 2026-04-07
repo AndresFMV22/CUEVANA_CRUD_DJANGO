@@ -121,7 +121,7 @@ def registro(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            grupo_usuarios = Group.objects.get(name='Usuarios')
+            grupo_usuarios, _ = Group.objects.get_or_create(name='Usuarios')
             user.groups.add(grupo_usuarios)
             login(request, user)
             return redirect('lista_contenido')
@@ -144,5 +144,6 @@ def login_view(request):
     return render(request, 'catalogos/login.html', {'form': form})
 
 def logout_view(request):
-    logout(request)
+    if request.method == 'POST':
+        logout(request)
     return redirect('lista_contenido')

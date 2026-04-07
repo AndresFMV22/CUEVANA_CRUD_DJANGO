@@ -1,6 +1,14 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
 from datetime import datetime
+
+
+def validate_max_year(value):
+    max_year = datetime.now().year + 1
+    if value > max_year:
+        raise ValidationError(f"No se puede superar el año {max_year}")
+
 
 class Contenido(models.Model):
     titulo = models.CharField(max_length=200)
@@ -8,7 +16,7 @@ class Contenido(models.Model):
     anio = models.IntegerField(
         validators=[
             MinValueValidator(1888, message="El año no puede ser menor a 1888 (origen del cine)"),
-            MaxValueValidator(datetime.now().year + 1, message=f"No se puede superar el año {datetime.now().year + 1}")
+            validate_max_year,
         ],
         help_text="Año de lanzamiento (entre 1888 y el año siguiente)"
     )
