@@ -1,4 +1,4 @@
-#Cuevana CRUD - Plataforma de Gestión de Películas
+Cuevana CRUD - Plataforma de Gestión de Películas
 
 > Proyecto universitario de **5to semestre – Plataformas de Programación**.
 > Aplicación web desarrollada con **Django** que implementa un **CRUD completo** para un catálogo de películas y series, con autenticación por roles, filtros por género, tráilers de YouTube y una interfaz inspirada en **Cuevana**.
